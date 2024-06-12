@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "PIPIwZ1OKhCgeBihAL+MmfevELE7PMfp5fyUr21Su3M=",
+  "Source": "MAS_DeliveryService.Api",
+  "BasePath": "_content/MAS_DeliveryService.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

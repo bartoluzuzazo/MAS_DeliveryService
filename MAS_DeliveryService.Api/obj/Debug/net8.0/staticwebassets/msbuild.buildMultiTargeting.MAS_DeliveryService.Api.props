@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\MAS_DeliveryService.Api.props" />
+</Project>
