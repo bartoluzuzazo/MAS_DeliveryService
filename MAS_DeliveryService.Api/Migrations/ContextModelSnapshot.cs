@@ -17,37 +17,7 @@ namespace MAS_DeliveryService.Api.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
 
-            modelBuilder.Entity("ItemOrder", b =>
-                {
-                    b.Property<Guid>("ItemsId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("OrdersId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ItemsId", "OrdersId");
-
-                    b.HasIndex("OrdersId");
-
-                    b.ToTable("ItemOrder");
-                });
-
-            modelBuilder.Entity("ItemPackage", b =>
-                {
-                    b.Property<Guid>("ItemsId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("PackagesId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ItemsId", "PackagesId");
-
-                    b.HasIndex("PackagesId");
-
-                    b.ToTable("ItemPackage");
-                });
-
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Client", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Clients.Client", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -67,7 +37,7 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.ToTable("Client");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Delivery", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Deliveries.Delivery", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -95,7 +65,7 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.ToTable("Deliveries");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.DriversLicense", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.DriversLicenses.DriversLicense", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -118,7 +88,7 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.ToTable("DriversLicenses");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Item", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Items.Item", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -136,7 +106,28 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Order", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.OrderItems.OrderItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Orders.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -168,7 +159,28 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Package", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.PackageItems.PackageItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("PackageId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("PackageId");
+
+                    b.ToTable("PackageItems");
+                });
+
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Packages.Package", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -199,13 +211,13 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.ToTable("Packages");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Person", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.People.Person", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("ClientId")
+                    b.Property<Guid?>("ClientId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FirstName")
@@ -222,7 +234,7 @@ namespace MAS_DeliveryService.Api.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("WorkerId")
+                    b.Property<Guid?>("WorkerId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -234,7 +246,7 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.ToTable("Person");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Worker", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Workers.Worker", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -267,9 +279,9 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.UseTptMappingStrategy();
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Courier", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Couriers.Courier", b =>
                 {
-                    b.HasBaseType("MAS_DeliveryService.Api.Domain.Worker");
+                    b.HasBaseType("MAS_DeliveryService.Api.Domain.Workers.Worker");
 
                     b.Property<Guid>("DriversLicenseId")
                         .HasColumnType("TEXT");
@@ -279,9 +291,9 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.ToTable("Courier");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Manager", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Managers.Manager", b =>
                 {
-                    b.HasBaseType("MAS_DeliveryService.Api.Domain.Worker");
+                    b.HasBaseType("MAS_DeliveryService.Api.Domain.Workers.Worker");
 
                     b.Property<string>("Education")
                         .IsRequired()
@@ -290,39 +302,9 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.ToTable("Manager");
                 });
 
-            modelBuilder.Entity("ItemOrder", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Clients.Client", b =>
                 {
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Item", null)
-                        .WithMany()
-                        .HasForeignKey("ItemsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ItemPackage", b =>
-                {
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Item", null)
-                        .WithMany()
-                        .HasForeignKey("ItemsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Package", null)
-                        .WithMany()
-                        .HasForeignKey("PackagesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Client", b =>
-                {
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Person", "Person")
+                    b.HasOne("MAS_DeliveryService.Api.Domain.People.Person", "Person")
                         .WithMany()
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -331,15 +313,15 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Delivery", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Deliveries.Delivery", b =>
                 {
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Courier", "Courier")
+                    b.HasOne("MAS_DeliveryService.Api.Domain.Couriers.Courier", "Courier")
                         .WithMany("Deliveries")
                         .HasForeignKey("CourierId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Order", "Order")
+                    b.HasOne("MAS_DeliveryService.Api.Domain.Orders.Order", "Order")
                         .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -350,9 +332,9 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.DriversLicense", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.DriversLicenses.DriversLicense", b =>
                 {
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Courier", "Courier")
+                    b.HasOne("MAS_DeliveryService.Api.Domain.Couriers.Courier", "Courier")
                         .WithMany()
                         .HasForeignKey("CourierId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -361,15 +343,34 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.Navigation("Courier");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Order", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.OrderItems.OrderItem", b =>
                 {
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Client", "Client")
+                    b.HasOne("MAS_DeliveryService.Api.Domain.Items.Item", "Item")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MAS_DeliveryService.Api.Domain.Orders.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Orders.Order", b =>
+                {
+                    b.HasOne("MAS_DeliveryService.Api.Domain.Clients.Client", "Client")
                         .WithMany("Orders")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Delivery", "Delivery")
+                    b.HasOne("MAS_DeliveryService.Api.Domain.Deliveries.Delivery", "Delivery")
                         .WithMany()
                         .HasForeignKey("DeliveryId");
 
@@ -378,13 +379,32 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.Navigation("Delivery");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Package", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.PackageItems.PackageItem", b =>
                 {
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Order", "DeliveredIn")
+                    b.HasOne("MAS_DeliveryService.Api.Domain.Items.Item", "Item")
+                        .WithMany("PackageItems")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MAS_DeliveryService.Api.Domain.Packages.Package", "Package")
+                        .WithMany("PackageItems")
+                        .HasForeignKey("PackageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Package");
+                });
+
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Packages.Package", b =>
+                {
+                    b.HasOne("MAS_DeliveryService.Api.Domain.Orders.Order", "DeliveredIn")
                         .WithMany("DeliveredIn")
                         .HasForeignKey("DeliveredInId");
 
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Order", "SentIn")
+                    b.HasOne("MAS_DeliveryService.Api.Domain.Orders.Order", "SentIn")
                         .WithMany("SentIn")
                         .HasForeignKey("SentInId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -395,28 +415,24 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.Navigation("SentIn");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Person", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.People.Person", b =>
                 {
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Client", "Client")
+                    b.HasOne("MAS_DeliveryService.Api.Domain.Clients.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClientId");
 
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Worker", "Worker")
+                    b.HasOne("MAS_DeliveryService.Api.Domain.Workers.Worker", "Worker")
                         .WithMany()
-                        .HasForeignKey("WorkerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WorkerId");
 
                     b.Navigation("Client");
 
                     b.Navigation("Worker");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Worker", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Workers.Worker", b =>
                 {
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Person", "Person")
+                    b.HasOne("MAS_DeliveryService.Api.Domain.People.Person", "Person")
                         .WithMany()
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -425,45 +441,59 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Courier", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Couriers.Courier", b =>
                 {
-                    b.HasOne("MAS_DeliveryService.Api.Domain.DriversLicense", "DriversLicense")
+                    b.HasOne("MAS_DeliveryService.Api.Domain.DriversLicenses.DriversLicense", "DriversLicense")
                         .WithMany()
                         .HasForeignKey("DriversLicenseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Worker", null)
+                    b.HasOne("MAS_DeliveryService.Api.Domain.Workers.Worker", null)
                         .WithOne()
-                        .HasForeignKey("MAS_DeliveryService.Api.Domain.Courier", "Id")
+                        .HasForeignKey("MAS_DeliveryService.Api.Domain.Couriers.Courier", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("DriversLicense");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Manager", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Managers.Manager", b =>
                 {
-                    b.HasOne("MAS_DeliveryService.Api.Domain.Worker", null)
+                    b.HasOne("MAS_DeliveryService.Api.Domain.Workers.Worker", null)
                         .WithOne()
-                        .HasForeignKey("MAS_DeliveryService.Api.Domain.Manager", "Id")
+                        .HasForeignKey("MAS_DeliveryService.Api.Domain.Managers.Manager", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Client", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Clients.Client", b =>
                 {
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Order", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Items.Item", b =>
+                {
+                    b.Navigation("OrderItems");
+
+                    b.Navigation("PackageItems");
+                });
+
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Orders.Order", b =>
                 {
                     b.Navigation("DeliveredIn");
+
+                    b.Navigation("OrderItems");
 
                     b.Navigation("SentIn");
                 });
 
-            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Courier", b =>
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Packages.Package", b =>
+                {
+                    b.Navigation("PackageItems");
+                });
+
+            modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Couriers.Courier", b =>
                 {
                     b.Navigation("Deliveries");
                 });
