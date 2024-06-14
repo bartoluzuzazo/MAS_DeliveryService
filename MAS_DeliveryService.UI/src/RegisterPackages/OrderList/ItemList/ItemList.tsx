@@ -29,7 +29,7 @@ export const ItemList : FunctionComponent<props> = ({items}) => {
         >
             <ul>
                 {items.map((item) => (
-                    <ListItem key={`item-$${item}`}>
+                    <ListItem key={item.id} className="border border-black">
                         <ListItemText primary={item.name}/>
                         <ListItemText primary={item.weight}/>
                     </ListItem>

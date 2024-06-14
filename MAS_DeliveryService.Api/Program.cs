@@ -2,6 +2,8 @@ using MAS_DeliveryService.Api.Contexts;
 using MAS_DeliveryService.Api.Domain.Items;
 using MAS_DeliveryService.Api.Domain.OrderItems;
 using MAS_DeliveryService.Api.Domain.Orders;
+using MAS_DeliveryService.Api.Domain.PackageItems;
+using MAS_DeliveryService.Api.Domain.Packages;
 using MAS_DeliveryService.Api.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +16,8 @@ builder.Services.AddDbContext<Context>(options => options.UseSqlite("Data Source
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
+builder.Services.AddScoped<IPackageRepository, PackageRepository>();
+builder.Services.AddScoped<IPackageItemRepository, PackageItemRepository>();
 
 builder.Services.AddCors(options =>
 {

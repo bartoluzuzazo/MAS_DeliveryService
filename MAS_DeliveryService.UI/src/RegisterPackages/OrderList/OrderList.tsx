@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {IItem, ItemList} from "./ItemList/ItemList";
-import {useEffect, useState} from "react";
+import {FunctionComponent, useEffect, useState} from "react";
 import axios from "axios";
 
 export interface IOrder {
@@ -19,9 +19,19 @@ export interface IOrder {
     clientLastName: string
 }
 
-export const OrderList = () => {
+interface Props {
+    setOrder: any
+    setStage: any
+}
 
-    const [Orders, SetOrders] = useState<IOrder[]>()
+export const OrderList : FunctionComponent<Props> = ({setOrder, setStage}) => {
+
+    const [Orders, SetOrders] = useState<IOrder[]>();
+
+    const handleNext = (order: IOrder) => {
+        setOrder(order);
+        setStage(1)
+    }
 
     useEffect(() => {
         axios.get("http://localhost:5168/api/Order/pending").then(({data}) => {
@@ -59,7 +69,7 @@ export const OrderList = () => {
                                 <TableCell>
                                     <ItemList items={order.items}/>
                                 </TableCell>
-                                <TableCell>next</TableCell>
+                                <TableCell onClick={()=>handleNext(order)}>next</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

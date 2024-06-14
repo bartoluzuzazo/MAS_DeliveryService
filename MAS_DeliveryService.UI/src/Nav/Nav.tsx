@@ -7,7 +7,7 @@ import {FaBars} from "react-icons/fa";
 
 export const Nav = () => {
     return (
-        <div className="border border-black rounded-xl shadow-xl p-2 bg-amber-400 h-full">
+        <div className="border border-black rounded-xl shadow-xl p-2 bg-amber-400 h-full min-h-96 static" style={{minHeight: "27rem"}}>
             <div className="p-4">
                 <FaBars/>
             </div>
