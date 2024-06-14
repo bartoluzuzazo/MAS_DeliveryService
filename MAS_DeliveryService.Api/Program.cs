@@ -1,4 +1,5 @@
 using MAS_DeliveryService.Api.Contexts;
+using MAS_DeliveryService.Api.Domain.Clients;
 using MAS_DeliveryService.Api.Domain.Items;
 using MAS_DeliveryService.Api.Domain.OrderItems;
 using MAS_DeliveryService.Api.Domain.Orders;
@@ -18,6 +19,7 @@ builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IPackageRepository, PackageRepository>();
 builder.Services.AddScoped<IPackageItemRepository, PackageItemRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
 builder.Services.AddCors(options =>
 {

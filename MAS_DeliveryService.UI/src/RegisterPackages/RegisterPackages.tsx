@@ -42,7 +42,7 @@ export const RegisterPackages = () => {
                 Stage===1 && <RegisterForm order={Order!} addPackage={AddPackage} setStage={SetStage}/>
             }
             {
-                Stage===2 && <PackageSummary packages={Packages}/>
+                Stage===2 && <PackageSummary packages={Packages} orderId={Order!.id}/>
             }
 
         </div>

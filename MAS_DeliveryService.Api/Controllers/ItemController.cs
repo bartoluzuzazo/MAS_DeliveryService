@@ -1,4 +1,5 @@
-﻿using MAS_DeliveryService.Api.Domain.Items;
+﻿using MAS_DeliveryService.Api.Domain.Clients;
+using MAS_DeliveryService.Api.Domain.Items;
 using MAS_DeliveryService.Api.Domain.Items.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,12 @@ namespace MAS_DeliveryService.Api.Controllers;
 public class ItemController : ControllerBase
 {
     private readonly IItemRepository _itemRepository;
+    private readonly IClientRepository _clientRepository;
 
-    public ItemController(IItemRepository itemRepository)
+    public ItemController(IItemRepository itemRepository, IClientRepository clientRepository)
     {
         _itemRepository = itemRepository;
+        _clientRepository = clientRepository;
     }
     
     [HttpGet]
@@ -36,12 +39,18 @@ public class ItemController : ControllerBase
     {
         var item = new Item()
         {
-            Id = Guid.NewGuid(),
             Name = request.Name,
             Weight = request.Weight
         };
         await _itemRepository.CreateItem(item);
         return CreatedAtAction(nameof(GetItem), item.Id.ToString());
+    }
+    
+    [HttpPost("cl")]
+    public async Task<IActionResult> PostClient()
+    {
+        await _clientRepository.AddClient("Imie", "Nazw", "111222333", "aa@a.pl");
+        return Created();
     }
     
     [HttpDelete]

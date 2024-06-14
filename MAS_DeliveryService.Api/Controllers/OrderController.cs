@@ -38,20 +38,21 @@ public class OrderController : ControllerBase
     {
         var order = new Order()
         {
-            Id = Guid.NewGuid(),
             Destination = request.Destination,
             Sender = request.Sender,
             ClientId = request.ClientId,
         };
+        
+        await _orderRepository.CreateOrder(order);
+        
         var orderItems = request.ItemIds.Select(guid => new OrderItem()
         {
-            Id = Guid.NewGuid(),
             ItemId = guid,
             OrderId = order.Id
         }).ToList();
-        await _orderRepository.CreateOrder(order);
+        
         orderItems.ForEach(oi => _orderItemRepository.CreateOrderItem(oi));
-        return CreatedAtAction(nameof(GetOrder), order.Id.ToString());
+        return Created();
     }
 
     [HttpDelete("{id}")]

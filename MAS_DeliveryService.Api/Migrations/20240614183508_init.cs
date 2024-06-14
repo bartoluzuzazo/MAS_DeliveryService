@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MAS_DeliveryService.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -118,24 +118,25 @@ namespace MAS_DeliveryService.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemOrder",
+                name: "OrderItems",
                 columns: table => new
                 {
-                    ItemsId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    OrdersId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    OrderId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ItemId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemOrder", x => new { x.ItemsId, x.OrdersId });
+                    table.PrimaryKey("PK_OrderItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ItemOrder_Items_ItemsId",
-                        column: x => x.ItemsId,
+                        name: "FK_OrderItems_Items_ItemId",
+                        column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ItemOrder_Orders_OrdersId",
-                        column: x => x.OrdersId,
+                        name: "FK_OrderItems_Orders_OrderId",
+                        column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -168,24 +169,25 @@ namespace MAS_DeliveryService.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemPackage",
+                name: "PackageItems",
                 columns: table => new
                 {
-                    ItemsId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    PackagesId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ItemId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    PackageId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemPackage", x => new { x.ItemsId, x.PackagesId });
+                    table.PrimaryKey("PK_PackageItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ItemPackage_Items_ItemsId",
-                        column: x => x.ItemsId,
+                        name: "FK_PackageItems_Items_ItemId",
+                        column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ItemPackage_Packages_PackagesId",
-                        column: x => x.PackagesId,
+                        name: "FK_PackageItems_Packages_PackageId",
+                        column: x => x.PackageId,
                         principalTable: "Packages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -211,8 +213,8 @@ namespace MAS_DeliveryService.Api.Migrations
                     FirstName = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     LastName = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     Number = table.Column<string>(type: "TEXT", nullable: false),
-                    ClientId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    WorkerId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    ClientId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    WorkerId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -221,8 +223,7 @@ namespace MAS_DeliveryService.Api.Migrations
                         name: "FK_Person_Client_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Client",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -275,14 +276,14 @@ namespace MAS_DeliveryService.Api.Migrations
                 column: "CourierId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemOrder_OrdersId",
-                table: "ItemOrder",
-                column: "OrdersId");
+                name: "IX_OrderItems_ItemId",
+                table: "OrderItems",
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemPackage_PackagesId",
-                table: "ItemPackage",
-                column: "PackagesId");
+                name: "IX_OrderItems_OrderId",
+                table: "OrderItems",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_ClientId",
@@ -293,6 +294,16 @@ namespace MAS_DeliveryService.Api.Migrations
                 name: "IX_Orders_DeliveryId",
                 table: "Orders",
                 column: "DeliveryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PackageItems_ItemId",
+                table: "PackageItems",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PackageItems_PackageId",
+                table: "PackageItems",
+                column: "PackageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Packages_DeliveredInId",
@@ -370,8 +381,7 @@ namespace MAS_DeliveryService.Api.Migrations
                 table: "Person",
                 column: "WorkerId",
                 principalTable: "Worker",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "Id");
         }
 
         /// <inheritdoc />
@@ -402,13 +412,13 @@ namespace MAS_DeliveryService.Api.Migrations
                 table: "Deliveries");
 
             migrationBuilder.DropTable(
-                name: "ItemOrder");
-
-            migrationBuilder.DropTable(
-                name: "ItemPackage");
-
-            migrationBuilder.DropTable(
                 name: "Manager");
+
+            migrationBuilder.DropTable(
+                name: "OrderItems");
+
+            migrationBuilder.DropTable(
+                name: "PackageItems");
 
             migrationBuilder.DropTable(
                 name: "Items");

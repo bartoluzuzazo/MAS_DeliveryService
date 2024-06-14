@@ -3,4 +3,5 @@
 public interface IPackageRepository
 {
     public Task AddPackage(Package package);
+    public Task AddPackages(IEnumerable<Package> packages);
 }

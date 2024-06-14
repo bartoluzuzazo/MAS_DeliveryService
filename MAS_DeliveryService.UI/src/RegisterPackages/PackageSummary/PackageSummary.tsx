@@ -4,15 +4,29 @@ import {FunctionComponent} from "react";
 import {PackagePanel} from "./PackagePanel/PackagePanel";
 import {BsArrowRightCircle} from "react-icons/bs";
 import {TiTickOutline} from "react-icons/ti";
+import axios from "axios";
 
 interface Props {
-    packages: IPackage[]
+    packages: IPackage[],
+    orderId: string
 }
 
-export const PackageSummary: FunctionComponent<Props> = ({packages}) => {
+export const PackageSummary: FunctionComponent<Props> = ({packages, orderId}) => {
 
     const handleFinish = () => {
+        const PackagesDTO = {
+            Packages: packages.map(p => {
+                return {
+                    SerialNumber : p.serialNumber,
+                    Comment : p.comment,
+                    ItemIds : p.items.map(i => i.id)
+                }
+            }),
+            OrderId: orderId
+        }
 
+        axios.post("http://localhost:5168/api/Package", PackagesDTO).then(()=>{
+        }).catch((e)=>console.log(e));
     }
 
     return (

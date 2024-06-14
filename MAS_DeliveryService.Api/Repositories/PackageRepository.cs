@@ -17,4 +17,10 @@ public class PackageRepository : IPackageRepository
         await _context.Packages.AddAsync(package);
         await _context.SaveChangesAsync();
     }
+    
+    public async Task AddPackages(IEnumerable<Package> packages)
+    {
+        await _context.Packages.AddRangeAsync(packages);
+        await _context.SaveChangesAsync();
+    }
 }
