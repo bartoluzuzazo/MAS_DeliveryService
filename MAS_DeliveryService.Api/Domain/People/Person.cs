@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using MAS_DeliveryService.Api.Domain.Clients;
+using MAS_DeliveryService.Api.Domain.Validators;
 using MAS_DeliveryService.Api.Domain.Workers;
 
 namespace MAS_DeliveryService.Api.Domain.People;

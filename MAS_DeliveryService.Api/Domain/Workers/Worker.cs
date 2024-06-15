@@ -25,4 +25,19 @@ public abstract class Worker
     
     [ForeignKey(nameof(PersonId))]    
     public virtual Person Person { get; set; }
+
+    public void MakeEmployee(decimal salary)
+    {
+        MonthlySalary = salary;
+        VacationDaysLeft = 0;
+        SalaryPerHour = null;
+        Discriminator = ContractType.Employee;
+    }
+    public void MakeContractor(decimal salary)
+    {
+        MonthlySalary = null;
+        VacationDaysLeft = null;
+        SalaryPerHour = salary;
+        Discriminator = ContractType.Contractor;
+    }
 }
