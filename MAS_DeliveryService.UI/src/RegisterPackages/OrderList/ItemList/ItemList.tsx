@@ -10,11 +10,11 @@ export interface IItem {
     weight: number
 }
 
-interface props{
+interface props {
     items: IItem[]
 }
 
-export const ItemList : FunctionComponent<props> = ({items}) => {
+export const ItemListX: FunctionComponent<props> = ({items}) => {
     return (
         <List
             sx={{
@@ -36,5 +36,19 @@ export const ItemList : FunctionComponent<props> = ({items}) => {
                 ))}
             </ul>
         </List>
+    );
+}
+
+export const ItemList: FunctionComponent<props> = ({items}) => {
+    return (
+        <div className="min-w-40">
+            <ul className="h-24 w-full overflow-y-scroll border border-black">
+                {items.map((i) =>
+                    <li className="text-lg flex flex-row border-b border-black">
+                        <div className="p-1">{i.name}</div>
+                        <div className="p-1">{i.weight}</div>
+                    </li>)}
+            </ul>
+        </div>
     );
 }

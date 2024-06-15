@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import {IItem, ItemList} from "./ItemList/ItemList";
 import {FunctionComponent, useEffect, useState} from "react";
 import axios from "axios";
+import {FaTruckArrowRight} from "react-icons/fa6";
 
 export interface IOrder {
     id: string,
@@ -25,7 +26,7 @@ interface Props {
     setStage: any
 }
 
-export const OrderList : FunctionComponent<Props> = ({setOrder, setItems, setStage}) => {
+export const OrderListX: FunctionComponent<Props> = ({setOrder, setItems, setStage}) => {
 
     const [Orders, SetOrders] = useState<IOrder[]>();
 
@@ -71,12 +72,58 @@ export const OrderList : FunctionComponent<Props> = ({setOrder, setItems, setSta
                                 <TableCell>
                                     <ItemList items={order.items}/>
                                 </TableCell>
-                                <TableCell onClick={()=>handleNext(order)}>next</TableCell>
+                                <TableCell onClick={() => handleNext(order)}>next</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
+        </div>
+
+    );
+}
+
+export const OrderList: FunctionComponent<Props> = ({setOrder, setItems, setStage}) => {
+
+    const [Orders, SetOrders] = useState<IOrder[]>();
+
+    const handleNext = (order: IOrder) => {
+        setOrder(order);
+        setItems([...order.items])
+        setStage(1)
+    }
+
+    useEffect(() => {
+        axios.get("http://localhost:5168/api/Order/pending").then(({data}) => {
+            SetOrders(data);
+            console.log(data);
+        });
+    }, [])
+
+    return (
+        <div>
+            <h2 className="text-5xl p-8 pr-96">
+                Please select an order for delivery
+            </h2>
+            <table className="border border-black rounded-xl shadow-xl w-full">
+                <tr className="border-b border-black text-xl">
+                    <th className="p-2">From</th>
+                    <th className="p-2">To</th>
+                    <th className="p-2">Destination</th>
+                    <th className="p-2">Items</th>
+                    <th className="p-2"></th>
+                </tr>
+                {Orders?.map((order) =>
+                    <tr className="text-lg border-b border-black">
+                        <td className="p-4">{order.sender}</td>
+                        <td className="p-4">{order.clientFirstName} {order.clientLastName}</td>
+                        <td className="p-4">{order.destination}</td>
+                        <td className="w-4/12"><ItemList items={order.items}/></td>
+                        <td className="flex align-middle justify-center p-4 h-full">
+                            <FaTruckArrowRight className="size-8 cursor-pointer" onClick={() => handleNext(order)}/>
+                        </td>
+                    </tr>)}
+            </table>
         </div>
 
     );
