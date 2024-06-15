@@ -7,6 +7,13 @@ namespace MAS_DeliveryService.Api.Domain.DriversLicenses;
 
 public class DriversLicense
 {
+    public DriversLicense(DateTime dateIssued, HashSet<LicenseCategory> categories, Guid courierId)
+    {
+        DateIssued = dateIssued;
+        Categories = categories;
+        CourierId = courierId;
+    }
+
     [Key]
     public Guid Id { get; set; }
     

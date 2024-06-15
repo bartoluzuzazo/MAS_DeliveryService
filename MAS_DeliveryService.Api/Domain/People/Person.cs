@@ -8,6 +8,13 @@ namespace MAS_DeliveryService.Api.Domain.People;
 [Table(nameof(Person))]
 public class Person
 {
+    public Person(string firstName, string lastName, string number)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        Number = number;
+    }
+
     [Key]
     public Guid Id { get; set; }
     

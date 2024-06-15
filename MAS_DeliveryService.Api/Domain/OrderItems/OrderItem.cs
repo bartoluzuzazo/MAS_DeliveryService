@@ -7,6 +7,12 @@ namespace MAS_DeliveryService.Api.Domain.OrderItems;
 
 public class OrderItem
 {
+    public OrderItem(Guid orderId, Guid itemId)
+    {
+        OrderId = orderId;
+        ItemId = itemId;
+    }
+
     [Key]
     public Guid Id { get; set; }
     

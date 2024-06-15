@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using MAS_DeliveryService.Api.Domain.Items;
 using MAS_DeliveryService.Api.Domain.Orders;
 using MAS_DeliveryService.Api.Domain.PackageItems;
 using Microsoft.EntityFrameworkCore;
@@ -31,4 +32,9 @@ public class Package
     public virtual Order? DeliveredIn { get; set; }
 
     public virtual ICollection<PackageItem> PackageItems { get; set; }
+    
+    public List<Item> GetItems()
+    {
+        return PackageItems.Select(pi => pi.Item).OrderBy(i => i.Weight).ToList();
+    }
 }

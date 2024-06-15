@@ -2,13 +2,23 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using MAS_DeliveryService.Api.Domain.Clients;
 using MAS_DeliveryService.Api.Domain.Deliveries;
+using MAS_DeliveryService.Api.Domain.Items;
 using MAS_DeliveryService.Api.Domain.OrderItems;
 using MAS_DeliveryService.Api.Domain.Packages;
+using MAS_DeliveryService.Api.Domain.Validators;
 
 namespace MAS_DeliveryService.Api.Domain.Orders;
 
 public class Order
 {
+    public Order(string sender, string destination, Guid clientId)
+    {
+        Sender = sender;
+        Destination = destination;
+        ClientId = clientId;
+        IsCancelled = false;
+    }
+
     [Key]
     public Guid Id { get; set; }
     
@@ -39,7 +49,7 @@ public class Order
 
     [InverseProperty(nameof(DeliveredIn))]
     public virtual ICollection<Package> DeliveredIn { get; set; }
-    
+
     public virtual ICollection<OrderItem> OrderItems { get; set; }
 
     public Guid ClientId { get; set; }
@@ -55,5 +65,10 @@ public class Order
     public void CancelOrder()
     {
         if (State == "Pending") IsCancelled = true;
+    }
+
+    public List<Item> GetItems()
+    {
+        return OrderItems.Select(oi => oi.Item).OrderBy(i => i.Weight).ToList();
     }
 }

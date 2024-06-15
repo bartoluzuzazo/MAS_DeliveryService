@@ -1,4 +1,5 @@
-﻿using MAS_DeliveryService.Api.Domain.PackageItems;
+﻿using MAS_DeliveryService.Api.Domain.Exceptions;
+using MAS_DeliveryService.Api.Domain.PackageItems;
 using MAS_DeliveryService.Api.Domain.Packages;
 using MAS_DeliveryService.Api.Domain.Packages.DTOs;
 using Microsoft.AspNetCore.Mvc;
@@ -10,12 +11,10 @@ namespace MAS_DeliveryService.Api.Controllers;
 public class PackageController : ControllerBase
 {
     private readonly IPackageRepository _packageRepository;
-    private readonly IPackageItemRepository _packageItemRepository;
 
-    public PackageController(IPackageRepository packageRepository, IPackageItemRepository packageItemRepository)
+    public PackageController(IPackageRepository packageRepository)
     {
         _packageRepository = packageRepository;
-        _packageItemRepository = packageItemRepository;
     }
 
 
@@ -36,7 +35,6 @@ public class PackageController : ControllerBase
             };
             newPackages.Add((package, p.ItemIds));
         });
-        await _packageRepository.AddPackages(newPackages.Select(p => p.Item1));
 
         newPackages.ForEach(p =>
         {
@@ -50,8 +48,15 @@ public class PackageController : ControllerBase
                 newPackageItems.Add(packageItem);
             });
         });
-        
-        await _packageItemRepository.AddPackageItems(newPackageItems);
+
+        try
+        {
+            await _packageRepository.AddPackages(newPackages.Select(p => p.Item1), newPackageItems);
+        }
+        catch (EmptyCollectionException e)
+        {
+            return BadRequest(e.Message);
+        }
 
         return Created();
     }

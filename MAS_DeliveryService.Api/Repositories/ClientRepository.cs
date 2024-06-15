@@ -15,23 +15,12 @@ public class ClientRepository : IClientRepository
 
     public async Task AddClient(string fname, string lname, string num, string email)
     {
-        var person = new Person()
-        {
-            FirstName = fname,
-            LastName = lname,
-            Number = num,
-        };
+        var person = new Person(fname, lname, num);
         await _context.Persons.AddAsync(person);
-        await _context.SaveChangesAsync();
 
-        var client = new Client()
-        {
-            Email = email,
-            PersonId = person.Id
-        };
-        
+        var client = new Client(email, person.Id);
         await _context.Clients.AddAsync(client);
+        
         await _context.SaveChangesAsync();
-
     }
 }

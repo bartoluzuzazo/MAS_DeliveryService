@@ -17,7 +17,7 @@ public class ClientController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> PostClient()
     {
-        await _clientRepository.AddClient("Imie", "Nazw", "111222333", "aa@a.pl");
+        await _clientRepository.AddClient("Imie", "Nazw", "12", "aaa");
         return Created();
     }
 }

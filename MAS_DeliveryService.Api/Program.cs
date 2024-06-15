@@ -15,10 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<Context>(options => options.UseSqlite("Data Source=DeliveryService.db"));
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IPackageRepository, PackageRepository>();
-builder.Services.AddScoped<IPackageItemRepository, PackageItemRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
 builder.Services.AddCors(options =>

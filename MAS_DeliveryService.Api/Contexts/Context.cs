@@ -1,4 +1,5 @@
-﻿using MAS_DeliveryService.Api.Domain;
+﻿using System.ComponentModel.DataAnnotations;
+using MAS_DeliveryService.Api.Domain;
 using MAS_DeliveryService.Api.Domain.Clients;
 using MAS_DeliveryService.Api.Domain.Couriers;
 using MAS_DeliveryService.Api.Domain.Deliveries;
@@ -38,5 +39,26 @@ public class Context : DbContext
     public DbSet<OrderItem> OrderItems { get; set; }
     public DbSet<PackageItem> PackageItems { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source=DeliveryService.db");
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    {
+        options.UseSqlite($"Data Source=DeliveryService.db");
+    }
+
+    public override int SaveChanges()
+    {
+        AutoValidate();
+        return base.SaveChanges();
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    {
+        AutoValidate();
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
+    private void AutoValidate()
+    {
+        ChangeTracker.Entries().Where(e => e.State is EntityState.Added or EntityState.Modified).Select(e => e.Entity)
+            .ToList().ForEach(entity => Validator.ValidateObject(entity, new ValidationContext(entity), validateAllProperties: true));
+    }
 }

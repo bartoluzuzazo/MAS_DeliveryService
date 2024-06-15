@@ -1,7 +1,8 @@
-﻿namespace MAS_DeliveryService.Api.Domain.Packages;
+﻿using MAS_DeliveryService.Api.Domain.PackageItems;
+
+namespace MAS_DeliveryService.Api.Domain.Packages;
 
 public interface IPackageRepository
 {
-    public Task AddPackage(Package package);
-    public Task AddPackages(IEnumerable<Package> packages);
+    public Task AddPackages(IEnumerable<Package> packages, List<PackageItem> packageItems);
 }

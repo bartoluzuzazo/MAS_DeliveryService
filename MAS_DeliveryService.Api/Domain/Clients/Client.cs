@@ -8,6 +8,12 @@ namespace MAS_DeliveryService.Api.Domain.Clients;
 [Table(nameof(Client))]
 public class Client
 {
+    public Client(string email, Guid personId)
+    {
+        Email = email;
+        PersonId = personId;
+    }
+
     [Key] 
     public Guid Id { get; set; }
     
