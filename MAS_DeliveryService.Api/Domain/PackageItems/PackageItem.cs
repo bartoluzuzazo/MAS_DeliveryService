@@ -7,6 +7,13 @@ namespace MAS_DeliveryService.Api.Domain.PackageItems;
 
 public class PackageItem
 {
+    public PackageItem(Guid itemId, Guid packageId)
+    {
+        Id = Guid.NewGuid();
+        ItemId = itemId;
+        PackageId = packageId;
+    }
+
     [Key]
     public Guid Id { get; set; }
 

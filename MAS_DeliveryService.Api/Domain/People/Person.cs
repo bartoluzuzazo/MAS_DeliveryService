@@ -11,6 +11,7 @@ public class Person
 {
     public Person(string firstName, string lastName, string number)
     {
+        Id = Guid.NewGuid();
         FirstName = firstName;
         LastName = lastName;
         Number = number;

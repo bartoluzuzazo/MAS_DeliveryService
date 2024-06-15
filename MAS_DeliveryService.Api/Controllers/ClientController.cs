@@ -1,4 +1,5 @@
 ﻿using MAS_DeliveryService.Api.Domain.Clients;
+using MAS_DeliveryService.Api.Domain.Clients.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MAS_DeliveryService.Api.Controllers;
@@ -15,9 +16,9 @@ public class ClientController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostClient()
+    public async Task<IActionResult> PostClient(ClientPostRequest request)
     {
-        await _clientRepository.AddClient("Imie", "Nazw", "12", "aaa");
+        await _clientRepository.AddClient(request.FirstName, request.LastName, request.Number, request.Email);
         return Created();
     }
 }

@@ -44,9 +44,9 @@ export const ItemList: FunctionComponent<props> = ({items}) => {
         <div className="min-w-40">
             <ul className="h-24 w-full overflow-y-scroll border border-black">
                 {items.map((i) =>
-                    <li className="text-lg flex flex-row border-b border-black">
+                    <li className="text-lg flex flex-row justify-between border-b border-black">
                         <div className="p-1">{i.name}</div>
-                        <div className="p-1">{i.weight}</div>
+                        <div className="p-1">{i.weight}kg</div>
                     </li>)}
             </ul>
         </div>

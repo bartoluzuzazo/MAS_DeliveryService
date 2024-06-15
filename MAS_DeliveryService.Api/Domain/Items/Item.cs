@@ -10,6 +10,7 @@ public class Item
 {
     public Item(string name, decimal weight)
     {
+        Id = Guid.NewGuid();
         Name = name;
         Weight = weight;
     }

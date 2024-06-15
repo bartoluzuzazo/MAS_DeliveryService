@@ -119,8 +119,11 @@ export const OrderList: FunctionComponent<Props> = ({setOrder, setItems, setStag
                         <td className="p-4">{order.clientFirstName} {order.clientLastName}</td>
                         <td className="p-4">{order.destination}</td>
                         <td className="w-4/12"><ItemList items={order.items}/></td>
-                        <td className="flex align-middle justify-center p-4 h-full">
-                            <FaTruckArrowRight className="size-8 cursor-pointer" onClick={() => handleNext(order)}/>
+                        <td className="flex align-middle justify-center p-4 h-full cursor-pointer" onClick={() => handleNext(order)}>
+                            <div className="flex flex-col align-middle justify-center">
+                                <FaTruckArrowRight className="size-8"/>
+                                <div>Next</div>
+                            </div>
                         </td>
                     </tr>)}
             </table>

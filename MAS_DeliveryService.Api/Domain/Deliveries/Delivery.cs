@@ -9,6 +9,13 @@ namespace MAS_DeliveryService.Api.Domain.Deliveries;
 [Index(nameof(CourierId), nameof(OrderId), IsUnique = true)]
 public class Delivery
 {
+    public Delivery(Guid courierId, Guid orderId)
+    {
+        Id = Guid.NewGuid();
+        CourierId = courierId;
+        OrderId = orderId;
+    }
+
     [Key]
     public Guid Id { get; set; }
     

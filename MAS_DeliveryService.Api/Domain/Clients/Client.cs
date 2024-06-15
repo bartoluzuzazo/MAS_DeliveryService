@@ -10,6 +10,7 @@ public class Client
 {
     public Client(string email, Guid personId)
     {
+        Id = Guid.NewGuid();
         Email = email;
         PersonId = personId;
     }

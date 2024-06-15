@@ -10,6 +10,15 @@ namespace MAS_DeliveryService.Api.Domain.Packages;
 [Index(nameof(SerialNumber), IsUnique = true)]
 public class Package
 {
+    public Package(string serialNumber, string? comment, Guid sentInId)
+    {
+        Id = Guid.NewGuid();
+        SerialNumber = serialNumber;
+        Comment = comment;
+        SentInId = sentInId;
+        DeliveredInId = null;
+    }
+
     [Key]
     public Guid Id { get; set; }
     

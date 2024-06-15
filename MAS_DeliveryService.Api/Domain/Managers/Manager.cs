@@ -14,6 +14,7 @@ public class Manager : Worker
     
     public Manager(Guid personId, DateTime dateOfBirth, decimal salary, ContractType contractType, string education)
     {
+        Id = Guid.NewGuid();
         PersonId = personId;
         DateOfBirth = dateOfBirth;
         Education = education;

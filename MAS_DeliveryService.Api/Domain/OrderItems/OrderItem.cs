@@ -9,6 +9,7 @@ public class OrderItem
 {
     public OrderItem(Guid orderId, Guid itemId)
     {
+        Id = Guid.NewGuid();
         OrderId = orderId;
         ItemId = itemId;
     }

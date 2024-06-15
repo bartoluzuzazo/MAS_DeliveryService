@@ -17,7 +17,6 @@ public class PackageController : ControllerBase
         _packageRepository = packageRepository;
     }
 
-
     [HttpPost]
     public async Task<IActionResult> PostPackages(PackagePostRequestWrapper request)
     {
@@ -25,14 +24,7 @@ public class PackageController : ControllerBase
         var newPackageItems = new List<PackageItem>();
         request.Packages.ForEach(p =>
         {
-            var package = new Package()
-                {
-                    Id = Guid.NewGuid(),
-                    SerialNumber = p.Serialnumber,
-                    Comment = p.Comment,
-                    SentInId = request.OrderId,
-                    DeliveredInId = request.OrderId,
-            };
+            var package = new Package(p.Serialnumber, p.Comment, request.OrderId);
             newPackages.Add((package, p.ItemIds));
         });
 
@@ -40,11 +32,7 @@ public class PackageController : ControllerBase
         {
             p.Item2.ForEach(id =>
             {
-                var packageItem = new PackageItem()
-                {
-                    PackageId = p.Item1.Id,
-                    ItemId = id
-                };
+                var packageItem = new PackageItem(id, p.Item1.Id);
                 newPackageItems.Add(packageItem);
             });
         });

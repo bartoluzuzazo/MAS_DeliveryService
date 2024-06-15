@@ -15,22 +15,11 @@ public class Courier : Worker
     
     public Courier(Guid personId, DateTime dateOfBirth, decimal salary, ContractType contractType)
     {
+        Id = Guid.NewGuid();
         PersonId = personId;
         DateOfBirth = dateOfBirth;
-        if (contractType == ContractType.Contractor)
-        {
-            Discriminator = ContractType.Contractor;
-            SalaryPerHour = salary;
-            MonthlySalary = null;
-            VacationDaysLeft = null;
-        }
-        else
-        {
-            Discriminator = ContractType.Employee;
-            SalaryPerHour = null;
-            MonthlySalary = salary;
-            VacationDaysLeft = 0;
-        }
+        if (contractType == ContractType.Contractor) MakeContractor(salary);
+        else MakeEmployee(salary);
     }
     
     public Guid DriversLicenseId { get; set; }

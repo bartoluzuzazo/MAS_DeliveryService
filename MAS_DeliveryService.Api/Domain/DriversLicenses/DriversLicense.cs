@@ -9,6 +9,7 @@ public class DriversLicense
 {
     public DriversLicense(DateTime dateIssued, HashSet<LicenseCategory> categories, Guid courierId)
     {
+        Id = Guid.NewGuid();
         DateIssued = dateIssued;
         Categories = categories;
         CourierId = courierId;

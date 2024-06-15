@@ -13,6 +13,7 @@ public class Order
 {
     public Order(string sender, string destination, Guid clientId)
     {
+        Id = Guid.NewGuid();
         Sender = sender;
         Destination = destination;
         ClientId = clientId;
