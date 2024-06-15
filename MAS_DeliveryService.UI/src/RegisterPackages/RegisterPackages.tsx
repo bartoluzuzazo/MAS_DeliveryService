@@ -3,6 +3,7 @@ import {RegisterForm} from "./RegisterForm/RegisterForm";
 import {useState} from "react";
 import {IItem} from "./OrderList/ItemList/ItemList";
 import {PackageSummary} from "./PackageSummary/PackageSummary";
+import {Complete} from "./Complete/Complete";
 
 export interface IPackage {
     serialNumber: string,
@@ -42,7 +43,10 @@ export const RegisterPackages = () => {
                 Stage===1 && <RegisterForm order={Order!} addPackage={AddPackage} setStage={SetStage}/>
             }
             {
-                Stage===2 && <PackageSummary packages={Packages} orderId={Order!.id}/>
+                Stage===2 && <PackageSummary packages={Packages} orderId={Order!.id} setStage={SetStage}/>
+            }
+            {
+                Stage===3 && <Complete/>
             }
 
         </div>

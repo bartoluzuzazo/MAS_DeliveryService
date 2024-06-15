@@ -5,6 +5,7 @@ import {ItemSelection} from "./ItemSelection/ItemSelection";
 import {BsArrowRightCircle} from "react-icons/bs";
 import {IItem} from "../OrderList/ItemList/ItemList";
 import {IPackage} from "../RegisterPackages";
+import {WeightWarning} from "./WeightWarning/WeightWarning";
 
 interface Props {
     order: IOrder,
@@ -40,11 +41,10 @@ export const RegisterForm: FunctionComponent<Props> = ({order, addPackage, setSt
             comment: Comment
         }
         addPackage(Package);
-        if (order.items.length > 0){
+        if (order.items.length > 0) {
             SetSelectedItems([]);
             handleNewSerialNumber();
-        }
-        else{
+        } else {
             setStage(2);
         }
     }
@@ -114,24 +114,35 @@ export const RegisterForm: FunctionComponent<Props> = ({order, addPackage, setSt
                     </div>
                 </div>
             </div>
-            {
-                (Weight > 0.0 && Weight < 35.0) &&
-                <div className="flex flex-col-reverse pl-16">
-                    <div className="border border-black rounded-lg shadow-lg p-3 flex flex-row justify-between cursor-pointer select-none text-2xl bg-amber-400" onClick={handleNext}>
+            <div className="flex flex-col justify-between pl-16">
+                {
+                    !(Weight < 35.0) &&
+                    <div className="pt-44">
+                        <WeightWarning/>
+                    </div>
+                }
+                {
+                    (Weight < 35.0) &&
+                    <div></div>
+                }
+                {
+                    (Weight > 0.0 && Weight < 35.0) &&
+                    <div
+                        className="border border-black rounded-lg shadow-lg p-3 flex flex-row justify-between cursor-pointer select-none text-2xl bg-amber-400 max-w-40"
+                        onClick={handleNext}>
                         <div className="p-1"><BsArrowRightCircle/></div>
                         <div className="pl-8 pr-8">Next</div>
                     </div>
-                </div>
-            }
-            {
-                !(Weight > 0.0 && Weight < 35.0) &&
-                <div className="flex flex-col-reverse pl-16">
-                    <div className="border border-black rounded-lg shadow-lg p-3 flex flex-row justify-between cursor-pointer select-none text-2xl bg-gray-500">
+                }
+                {
+                    !(Weight > 0.0 && Weight < 35.0) &&
+                    <div
+                        className="border border-black rounded-lg shadow-lg p-3 flex flex-row justify-between cursor-pointer select-none text-2xl bg-gray-400 max-w-40">
                         <div className="p-1"><BsArrowRightCircle/></div>
                         <div className="pl-8 pr-8">Next</div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
     )
 }

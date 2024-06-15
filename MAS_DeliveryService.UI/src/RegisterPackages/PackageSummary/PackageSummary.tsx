@@ -1,17 +1,23 @@
 import * as React from "react";
 import {IPackage} from "../RegisterPackages";
-import {FunctionComponent} from "react";
+import {FunctionComponent, useRef} from "react";
 import {PackagePanel} from "./PackagePanel/PackagePanel";
-import {BsArrowRightCircle} from "react-icons/bs";
 import {TiTickOutline} from "react-icons/ti";
 import axios from "axios";
+import {CompleteDialog} from "./CompleteDialog/CompleteDialog";
 
 interface Props {
     packages: IPackage[],
-    orderId: string
+    orderId: string,
+    setStage: any
 }
 
-export const PackageSummary: FunctionComponent<Props> = ({packages, orderId}) => {
+export const PackageSummary: FunctionComponent<Props> = ({packages, orderId, setStage}) => {
+
+    const dialog = useRef<HTMLDialogElement>(null);
+    const handleDialog = () => {
+        if(dialog.current) dialog.current.showModal();
+    }
 
     const handleFinish = () => {
         const PackagesDTO = {
@@ -26,6 +32,8 @@ export const PackageSummary: FunctionComponent<Props> = ({packages, orderId}) =>
         }
 
         axios.post("http://localhost:5168/api/Package", PackagesDTO).then(()=>{
+            // setStage(3)
+            handleDialog();
         }).catch((e)=>console.log(e));
     }
 
@@ -45,6 +53,7 @@ export const PackageSummary: FunctionComponent<Props> = ({packages, orderId}) =>
                     <div className="pl-8 pr-8">Finish</div>
                 </div>
             </div>
+            <CompleteDialog dialog={dialog} setStage={setStage}/>
         </div>
     )
 }

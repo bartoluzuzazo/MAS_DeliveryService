@@ -25,14 +25,6 @@ public class OrderController : ControllerBase
         return Ok(orders);
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetOrder(Guid id)
-    {
-        if (!await _orderRepository.OrderExists(id)) return NotFound();
-        var order = await _orderRepository.ReadOrder(id);
-        return Ok(order);
-    }
-
     [HttpPost]
     public async Task<IActionResult> PostOrder(OrderPostRequest request)
     {
@@ -53,14 +45,5 @@ public class OrderController : ControllerBase
         
         orderItems.ForEach(oi => _orderItemRepository.CreateOrderItem(oi));
         return Created();
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteOrder(Guid id)
-    {
-        if (!await _orderRepository.OrderExists(id)) return NotFound();
-        var order = await _orderRepository.ReadOrder(id);
-        await _orderRepository.DeleteOrder(order);
-        return Ok();
     }
 }
