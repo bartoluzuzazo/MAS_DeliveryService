@@ -9,6 +9,10 @@ namespace MAS_DeliveryService.Api.Domain.Couriers;
 [Table(nameof(Courier))]
 public class Courier : Worker
 {
+    public Courier()
+    {
+    }
+    
     public Courier(Guid personId, DateTime dateOfBirth, decimal salary, ContractType contractType)
     {
         PersonId = personId;

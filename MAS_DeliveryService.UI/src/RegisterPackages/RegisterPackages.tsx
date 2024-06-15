@@ -4,6 +4,7 @@ import {useState} from "react";
 import {IItem} from "./OrderList/ItemList/ItemList";
 import {PackageSummary} from "./PackageSummary/PackageSummary";
 import {Complete} from "./Complete/Complete";
+import {EditForm} from "./EditForm/EditForm";
 
 export interface IPackage {
     serialNumber: string,
@@ -14,8 +15,10 @@ export interface IPackage {
 export const RegisterPackages = () => {
 
     const [Order, SetOrder] = useState<IOrder>();
+    const [AllItems, SetAllItems] = useState<IItem[]>([])
     const [Stage, SetStage] = useState<number>(0);
     const [Packages, SetPackages] = useState<IPackage[]>([]);
+    const [EditedPackage, SetEditedPackage] = useState<IPackage>()
 
     const AddPackage = (Package: IPackage) => {
         const packages = [...Packages];
@@ -37,16 +40,19 @@ export const RegisterPackages = () => {
             </h1>
 
             {
-                Stage===0 && <OrderList setOrder={SetOrder} setStage={SetStage}/>
+                Stage===0 && <OrderList setOrder={SetOrder} setStage={SetStage} setItems={SetAllItems}/>
             }
             {
                 Stage===1 && <RegisterForm order={Order!} addPackage={AddPackage} setStage={SetStage}/>
             }
             {
-                Stage===2 && <PackageSummary packages={Packages} orderId={Order!.id} setStage={SetStage}/>
+                Stage===2 && <PackageSummary packages={Packages} orderId={Order!.id} setStage={SetStage} setEdited={SetEditedPackage}/>
             }
             {
                 Stage===3 && <Complete/>
+            }
+            {
+                Stage===4 && <EditForm order={Order!} editedPackage={EditedPackage!} addPackage={AddPackage} setStage={SetStage} allItems={AllItems} packages={Packages}/>
             }
 
         </div>

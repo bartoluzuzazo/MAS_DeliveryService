@@ -20,16 +20,18 @@ export interface IOrder {
 }
 
 interface Props {
-    setOrder: any
+    setOrder: any,
+    setItems: any,
     setStage: any
 }
 
-export const OrderList : FunctionComponent<Props> = ({setOrder, setStage}) => {
+export const OrderList : FunctionComponent<Props> = ({setOrder, setItems, setStage}) => {
 
     const [Orders, SetOrders] = useState<IOrder[]>();
 
     const handleNext = (order: IOrder) => {
         setOrder(order);
+        setItems([...order.items])
         setStage(1)
     }
 

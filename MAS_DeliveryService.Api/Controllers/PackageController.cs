@@ -27,11 +27,11 @@ public class PackageController : ControllerBase
         {
             var package = new Package()
                 {
+                    Id = Guid.NewGuid(),
                     SerialNumber = p.Serialnumber,
                     Comment = p.Comment,
                     SentInId = request.OrderId,
                     DeliveredInId = request.OrderId,
-                
             };
             newPackages.Add((package, p.ItemIds));
         });

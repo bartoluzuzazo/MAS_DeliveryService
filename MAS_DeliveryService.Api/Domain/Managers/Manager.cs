@@ -8,6 +8,10 @@ namespace MAS_DeliveryService.Api.Domain.Managers;
 [Table(nameof(Manager))]
 public class Manager : Worker
 {
+    public Manager()
+    {
+    }
+    
     public Manager(Guid personId, DateTime dateOfBirth, decimal salary, ContractType contractType, string education)
     {
         PersonId = personId;
