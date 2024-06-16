@@ -40,7 +40,6 @@ export const OrderListX: FunctionComponent<Props> = ({setOrder, setItems, setSta
     useEffect(() => {
         axios.get("http://localhost:5168/api/Order/pending").then(({data}) => {
             SetOrders(data);
-            console.log(data);
         });
     }, [])
 

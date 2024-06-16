@@ -1,0 +1,6 @@
+﻿services:
+  mas_deliveryservice.api:
+    image: mas_deliveryservice.api
+    build:
+      context: .
+      dockerfile: MAS_DeliveryService.Api/Dockerfile

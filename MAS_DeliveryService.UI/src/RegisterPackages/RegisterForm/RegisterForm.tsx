@@ -6,6 +6,7 @@ import {BsArrowRightCircle} from "react-icons/bs";
 import {IItem} from "../OrderList/ItemList/ItemList";
 import {IPackage} from "../RegisterPackages";
 import {WeightWarning} from "./WeightWarning/WeightWarning";
+import axios from "axios";
 
 interface Props {
     order: IOrder,
@@ -19,6 +20,7 @@ export const RegisterForm: FunctionComponent<Props> = ({order, addPackage, setSt
     const [Weight, SetWeight] = useState(0.0)
     const [SerialNumber, SetSerialNumber] = useState("")
     const [Comment, SetComment] = useState<string>("")
+    const [MaxWeight, SetMaxWeight] = useState(35.0)
 
     useEffect(() => {
         handleNewSerialNumber();
@@ -33,6 +35,12 @@ export const RegisterForm: FunctionComponent<Props> = ({order, addPackage, setSt
         SetSerialNumber("PL" + Date.now() + order.sender.charAt(0).toUpperCase()
             + order.clientFirstName.charAt(0).toUpperCase() + order.clientLastName.charAt(0).toUpperCase());
     }
+
+    useEffect(() => {
+        axios.get("http://localhost:5168/api/Static/MaxWeight").then(({data}) => {
+            SetMaxWeight(data);
+        }).catch(e => SetMaxWeight(35.0));
+    }, [])
 
     const handleNext = () => {
         const Package: IPackage = {
@@ -116,17 +124,17 @@ export const RegisterForm: FunctionComponent<Props> = ({order, addPackage, setSt
             </div>
             <div className="flex flex-col justify-between pl-16">
                 {
-                    !(Weight < 35.0) &&
+                    !(Weight < MaxWeight) &&
                     <div className="pt-44">
-                        <WeightWarning/>
+                        <WeightWarning maxW={MaxWeight}/>
                     </div>
                 }
                 {
-                    (Weight < 35.0) &&
+                    (Weight < MaxWeight) &&
                     <div></div>
                 }
                 {
-                    (Weight > 0.0 && Weight < 35.0) &&
+                    (Weight > 0.0 && Weight < MaxWeight) &&
                     <div
                         className="border border-black rounded-lg shadow-lg p-3 flex flex-row justify-between cursor-pointer select-none text-2xl bg-amber-400 max-w-40"
                         onClick={handleNext}>
@@ -135,7 +143,7 @@ export const RegisterForm: FunctionComponent<Props> = ({order, addPackage, setSt
                     </div>
                 }
                 {
-                    !(Weight > 0.0 && Weight < 35.0) &&
+                    !(Weight > 0.0 && Weight < MaxWeight) &&
                     <div
                         className="border border-black rounded-lg shadow-lg p-3 flex flex-row justify-between cursor-pointer select-none text-2xl bg-gray-400 max-w-40">
                         <div className="p-1"><BsArrowRightCircle/></div>

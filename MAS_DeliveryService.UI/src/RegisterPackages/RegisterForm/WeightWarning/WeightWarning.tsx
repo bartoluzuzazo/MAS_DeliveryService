@@ -1,6 +1,11 @@
 import {AiOutlineWarning} from "react-icons/ai";
+import {FunctionComponent} from "react";
 
-export const WeightWarning = () => {
+interface Props{
+    maxW: number
+}
+
+export const WeightWarning : FunctionComponent<Props> = ({maxW}) => {
     return (
         <div>
             <div className="flex flex-row p-1">
@@ -9,7 +14,7 @@ export const WeightWarning = () => {
             </div>
             <div>
                 <div>Total weight exceeds the maximum</div>
-                <div>weight limit (35.0kg). To proceed,</div>
+                <div>weight limit ({maxW}kg). To proceed,</div>
                 <div>please remove too heavy items.</div>
             </div>
         </div>

@@ -7,6 +7,7 @@ import {IPackage} from "../RegisterPackages";
 import {ItemSelection} from "../RegisterForm/ItemSelection/ItemSelection";
 import {WeightWarning} from "../RegisterForm/WeightWarning/WeightWarning";
 import {WarningDialog} from "./WarningDialog/WarningDialog";
+import axios from "axios";
 
 interface Props {
     order: IOrder,
@@ -25,11 +26,18 @@ export const EditForm: FunctionComponent<Props> = ({order, addPackage, setStage,
     const [Comment, SetComment] = useState<string>(editedPackage.comment)
     const warningDialog = useRef<HTMLDialogElement>(null);
     const [Deleted, SetDeleted] = useState<IPackage[]>([])
+    const [MaxWeight, SetMaxWeight] = useState(35.0)
 
     useEffect(() => {
         const weight = SelectedItems.map(i => i.weight).reduce((sum, weight) => sum + weight, 0);
         SetWeight(weight);
     }, [SelectedItems]);
+
+    useEffect(() => {
+        axios.get("http://localhost:5168/api/Static/MaxWeight").then(({data}) => {
+            SetMaxWeight(data);
+        }).catch(e => SetMaxWeight(35.0));
+    }, [])
 
     const handleNext = () => {
         editedPackage.items.forEach((i) => {
@@ -143,17 +151,17 @@ export const EditForm: FunctionComponent<Props> = ({order, addPackage, setStage,
             </div>
             <div className="flex flex-col justify-between pl-16">
                 {
-                    !(Weight < 35.0) &&
+                    !(Weight < MaxWeight) &&
                     <div className="pt-44">
-                        <WeightWarning/>
+                        <WeightWarning maxW={MaxWeight}/>
                     </div>
                 }
                 {
-                    (Weight < 35.0) &&
+                    (Weight < MaxWeight) &&
                     <div></div>
                 }
                 {
-                    (Weight > 0.0 && Weight < 35.0) &&
+                    (Weight > 0.0 && Weight < MaxWeight) &&
                     <div
                         className="border border-black rounded-lg shadow-lg p-3 flex flex-row justify-between cursor-pointer select-none text-2xl bg-amber-400 max-w-40"
                         onClick={handleNext}>
@@ -162,7 +170,7 @@ export const EditForm: FunctionComponent<Props> = ({order, addPackage, setStage,
                     </div>
                 }
                 {
-                    !(Weight > 0.0 && Weight < 35.0) &&
+                    !(Weight > 0.0 && Weight < MaxWeight) &&
                     <div
                         className="border border-black rounded-lg shadow-lg p-3 flex flex-row justify-between cursor-pointer select-none text-2xl bg-gray-400 max-w-40">
                         <div className="p-1"><BsArrowRightCircle/></div>
