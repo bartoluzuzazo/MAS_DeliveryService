@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace MAS_DeliveryService.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class init3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,6 +24,19 @@ namespace MAS_DeliveryService.Api.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Items", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Static",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    MaxWeight = table.Column<decimal>(type: "TEXT", nullable: false),
+                    YearlyVacationDays = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Static", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -42,7 +57,7 @@ namespace MAS_DeliveryService.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    DriversLicenseId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    DriversLicenseId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -143,7 +158,7 @@ namespace MAS_DeliveryService.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Packages",
+                name: "Package",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
@@ -154,14 +169,14 @@ namespace MAS_DeliveryService.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Packages", x => x.Id);
+                    table.PrimaryKey("PK_Package", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Packages_Orders_DeliveredInId",
+                        name: "FK_Package_Orders_DeliveredInId",
                         column: x => x.DeliveredInId,
                         principalTable: "Orders",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Packages_Orders_SentInId",
+                        name: "FK_Package_Orders_SentInId",
                         column: x => x.SentInId,
                         principalTable: "Orders",
                         principalColumn: "Id",
@@ -186,9 +201,9 @@ namespace MAS_DeliveryService.Api.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PackageItems_Packages_PackageId",
+                        name: "FK_PackageItems_Package_PackageId",
                         column: x => x.PackageId,
-                        principalTable: "Packages",
+                        principalTable: "Package",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -249,6 +264,92 @@ namespace MAS_DeliveryService.Api.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Items",
+                columns: new[] { "Id", "Name", "Weight" },
+                values: new object[,]
+                {
+                    { new Guid("0cbb1178-ff27-4e05-a01b-94ebcd75a1b1"), "Water bottle", 1.0m },
+                    { new Guid("51568137-dabd-437f-aca0-55d5176e44ca"), "Pen", 0.1m },
+                    { new Guid("af584438-575e-4c97-b429-128f72c2469c"), "Asbestos", 10.0m },
+                    { new Guid("b97aac37-3e37-418b-bd84-b4a7c222b3fe"), "Bricks", 34.7m }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Person",
+                columns: new[] { "Id", "ClientId", "FirstName", "LastName", "Number", "WorkerId" },
+                values: new object[,]
+                {
+                    { new Guid("05be6fca-8704-4155-8e13-71b3ee56cc51"), null, "Jan", "Kowalski", "555666555", null },
+                    { new Guid("7db63b89-de37-4d77-8460-bb12cb8a5ec7"), null, "John", "Marston", "555444555", null },
+                    { new Guid("9126d66b-f694-4a9e-895b-6691be413b2d"), null, "Sam", "Fisher", "111222333", null },
+                    { new Guid("dcf7afb1-adf7-4f16-ad38-dc5f2b214279"), null, "Nathan", "Drake", "444555666", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Static",
+                columns: new[] { "Id", "MaxWeight", "YearlyVacationDays" },
+                values: new object[] { new Guid("ae9513bd-965f-49fa-a075-f42fa3482eb7"), 35.0m, 21 });
+
+            migrationBuilder.InsertData(
+                table: "Client",
+                columns: new[] { "Id", "Email", "PersonId" },
+                values: new object[,]
+                {
+                    { new Guid("1036d298-8b4c-4391-ab44-e0c54d4799aa"), "marston@gmail.com", new Guid("7db63b89-de37-4d77-8460-bb12cb8a5ec7") },
+                    { new Guid("caafbfab-ce64-433a-bd37-d68169df1fa3"), "fisher@gmail.com", new Guid("9126d66b-f694-4a9e-895b-6691be413b2d") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Worker",
+                columns: new[] { "Id", "DateOfBirth", "Discriminator", "MonthlySalary", "PersonId", "SalaryPerHour", "VacationDaysLeft" },
+                values: new object[,]
+                {
+                    { new Guid("11be6353-09b3-433f-99f8-564ab4baa433"), new DateTime(2024, 6, 16, 16, 2, 8, 421, DateTimeKind.Local).AddTicks(4920), 1, 5000.0m, new Guid("9126d66b-f694-4a9e-895b-6691be413b2d"), null, 0 },
+                    { new Guid("2e2a8832-9b41-4651-bb6e-b889281bc89b"), new DateTime(2024, 6, 16, 16, 2, 8, 421, DateTimeKind.Local).AddTicks(5299), 1, 3500.0m, new Guid("dcf7afb1-adf7-4f16-ad38-dc5f2b214279"), null, 0 },
+                    { new Guid("a781d2be-b7fb-41c5-a7d7-b5907767485a"), new DateTime(2024, 6, 16, 16, 2, 8, 421, DateTimeKind.Local).AddTicks(4854), 0, null, new Guid("05be6fca-8704-4155-8e13-71b3ee56cc51"), 30.0m, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Courier",
+                columns: new[] { "Id", "DriversLicenseId" },
+                values: new object[,]
+                {
+                    { new Guid("11be6353-09b3-433f-99f8-564ab4baa433"), null },
+                    { new Guid("a781d2be-b7fb-41c5-a7d7-b5907767485a"), null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Manager",
+                columns: new[] { "Id", "Education" },
+                values: new object[] { new Guid("2e2a8832-9b41-4651-bb6e-b889281bc89b"), "Harvard" });
+
+            migrationBuilder.InsertData(
+                table: "Orders",
+                columns: new[] { "Id", "ClientId", "DeliveryId", "Destination", "IsCancelled", "Sender" },
+                values: new object[,]
+                {
+                    { new Guid("0f1d73b7-fbdb-4b11-8e42-60f8b6864935"), new Guid("caafbfab-ce64-433a-bd37-d68169df1fa3"), null, "Example 32, Warsaw, Poland", false, "Amazon.com" },
+                    { new Guid("19570230-fdad-4916-9159-7ca79ea13386"), new Guid("1036d298-8b4c-4391-ab44-e0c54d4799aa"), null, "Example 87, Warsaw, Poland", false, "Building Company" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "DriversLicenses",
+                columns: new[] { "Id", "Categories", "CourierId", "DateIssued" },
+                values: new object[] { new Guid("f9c69e34-35ee-4a11-bb40-e63d590a9b11"), "[5]", new Guid("a781d2be-b7fb-41c5-a7d7-b5907767485a"), new DateTime(2024, 6, 16, 16, 2, 8, 421, DateTimeKind.Local).AddTicks(5607) });
+
+            migrationBuilder.InsertData(
+                table: "OrderItems",
+                columns: new[] { "Id", "ItemId", "OrderId" },
+                values: new object[,]
+                {
+                    { new Guid("1710c85a-f034-4cf6-802d-085257631fb5"), new Guid("0cbb1178-ff27-4e05-a01b-94ebcd75a1b1"), new Guid("19570230-fdad-4916-9159-7ca79ea13386") },
+                    { new Guid("53bb5537-14a5-450f-885d-e6234d84196a"), new Guid("af584438-575e-4c97-b429-128f72c2469c"), new Guid("19570230-fdad-4916-9159-7ca79ea13386") },
+                    { new Guid("8b973796-44e7-49d5-909c-f8b33df8fdd2"), new Guid("b97aac37-3e37-418b-bd84-b4a7c222b3fe"), new Guid("19570230-fdad-4916-9159-7ca79ea13386") },
+                    { new Guid("e0e991ff-cd16-4b88-bd93-ffe0d9361d82"), new Guid("0cbb1178-ff27-4e05-a01b-94ebcd75a1b1"), new Guid("0f1d73b7-fbdb-4b11-8e42-60f8b6864935") },
+                    { new Guid("e45d0d0b-5399-4d6e-9688-ee6dcd250b32"), new Guid("51568137-dabd-437f-aca0-55d5176e44ca"), new Guid("0f1d73b7-fbdb-4b11-8e42-60f8b6864935") }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Client_PersonId",
                 table: "Client",
@@ -276,9 +377,10 @@ namespace MAS_DeliveryService.Api.Migrations
                 column: "CourierId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_ItemId",
+                name: "IX_OrderItems_ItemId_OrderId",
                 table: "OrderItems",
-                column: "ItemId");
+                columns: new[] { "ItemId", "OrderId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_OrderId",
@@ -296,30 +398,31 @@ namespace MAS_DeliveryService.Api.Migrations
                 column: "DeliveryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PackageItems_ItemId",
+                name: "IX_Package_DeliveredInId",
+                table: "Package",
+                column: "DeliveredInId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Package_SentInId",
+                table: "Package",
+                column: "SentInId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Package_SerialNumber",
+                table: "Package",
+                column: "SerialNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PackageItems_ItemId_PackageId",
                 table: "PackageItems",
-                column: "ItemId");
+                columns: new[] { "ItemId", "PackageId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PackageItems_PackageId",
                 table: "PackageItems",
                 column: "PackageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Packages_DeliveredInId",
-                table: "Packages",
-                column: "DeliveredInId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Packages_SentInId",
-                table: "Packages",
-                column: "SentInId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Packages_SerialNumber",
-                table: "Packages",
-                column: "SerialNumber",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Person_ClientId",
@@ -349,8 +452,7 @@ namespace MAS_DeliveryService.Api.Migrations
                 table: "Courier",
                 column: "DriversLicenseId",
                 principalTable: "DriversLicenses",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Courier_Worker_Id",
@@ -421,10 +523,13 @@ namespace MAS_DeliveryService.Api.Migrations
                 name: "PackageItems");
 
             migrationBuilder.DropTable(
+                name: "Static");
+
+            migrationBuilder.DropTable(
                 name: "Items");
 
             migrationBuilder.DropTable(
-                name: "Packages");
+                name: "Package");
 
             migrationBuilder.DropTable(
                 name: "Person");

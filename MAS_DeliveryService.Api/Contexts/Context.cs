@@ -4,6 +4,7 @@ using MAS_DeliveryService.Api.Domain.Clients;
 using MAS_DeliveryService.Api.Domain.Couriers;
 using MAS_DeliveryService.Api.Domain.Deliveries;
 using MAS_DeliveryService.Api.Domain.DriversLicenses;
+using MAS_DeliveryService.Api.Domain.Enums;
 using MAS_DeliveryService.Api.Domain.Items;
 using MAS_DeliveryService.Api.Domain.Managers;
 using MAS_DeliveryService.Api.Domain.OrderItems;
@@ -48,7 +49,53 @@ public class Context : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        var people = new List<Person>
+        {
+            new Person("Jan", "Kowalski", "555666555"),
+            new Person("Nathan", "Drake", "444555666"),
+            new Person("John", "Marston", "555444555"),
+            new Person("Sam", "Fisher", "111222333"),
+        };
+        var clients = new List<Client>
+        {
+            new Client("marston@gmail.com", people[2].Id),
+            new Client("fisher@gmail.com", people[3].Id)
+        };
+        var couriers = new List<Courier>()
+        {
+            new Courier(people[0].Id, DateTime.Now, 30.0m, ContractType.Contractor),
+            new Courier(people[3].Id, DateTime.Now, 5000.0m, ContractType.Employee)
+        };
+        var items = new List<Item>
+        {
+            new Item("Asbestos", 10.0m),
+            new Item("Bricks", 34.7m),
+            new Item("Pen", 0.1m),
+            new Item("Water bottle", 1.0m)
+        };
+        var orders = new List<Order>
+        {
+            new Order("Building Company", "Example 87, Warsaw, Poland", clients.First().Id),
+            new Order("Amazon.com", "Example 32, Warsaw, Poland", clients[1].Id)
+        };
+        var orderItems = new List<OrderItem>
+        {
+            new OrderItem(orders.First().Id, items.First().Id),
+            new OrderItem(orders.First().Id, items[1].Id),
+            new OrderItem(orders.First().Id, items[3].Id),
+            new OrderItem(orders[1].Id, items[3].Id),
+            new OrderItem(orders[1].Id, items[2].Id),
+        };
+        
         modelBuilder.Entity<Static>().HasData(new Static(35.0m, 21));
+        modelBuilder.Entity<Person>().HasData(people);
+        modelBuilder.Entity<Manager>().HasData(new Manager(people[1].Id, DateTime.Now, 3500.0m, ContractType.Employee, "Harvard"));
+        modelBuilder.Entity<Courier>().HasData(couriers);
+        modelBuilder.Entity<Client>().HasData(clients);
+        modelBuilder.Entity<Item>().HasData(items);
+        modelBuilder.Entity<Order>().HasData(orders);
+        modelBuilder.Entity<OrderItem>().HasData(orderItems);
+        modelBuilder.Entity<DriversLicense>().HasData(new DriversLicense(DateTime.Now, new HashSet<LicenseCategory> { LicenseCategory.B }, couriers.First().Id));
         base.OnModelCreating(modelBuilder);
     }
 

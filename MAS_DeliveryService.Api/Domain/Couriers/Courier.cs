@@ -18,14 +18,15 @@ public class Courier : Worker
         Id = Guid.NewGuid();
         PersonId = personId;
         DateOfBirth = dateOfBirth;
+        DriversLicenseId = null;
         if (contractType == ContractType.Contractor) MakeContractor(salary);
         else MakeEmployee(salary);
     }
     
-    public Guid DriversLicenseId { get; set; }
+    public Guid? DriversLicenseId { get; set; }
 
     [ForeignKey(nameof(DriversLicenseId))]
-    public DriversLicense DriversLicense { get; set; }
+    public DriversLicense? DriversLicense { get; set; }
     
     public virtual ICollection<Delivery> Deliveries { get; set; }
 }

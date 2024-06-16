@@ -35,6 +35,20 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.HasIndex("PersonId");
 
                     b.ToTable("Client");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("1036d298-8b4c-4391-ab44-e0c54d4799aa"),
+                            Email = "marston@gmail.com",
+                            PersonId = new Guid("7db63b89-de37-4d77-8460-bb12cb8a5ec7")
+                        },
+                        new
+                        {
+                            Id = new Guid("caafbfab-ce64-433a-bd37-d68169df1fa3"),
+                            Email = "fisher@gmail.com",
+                            PersonId = new Guid("9126d66b-f694-4a9e-895b-6691be413b2d")
+                        });
                 });
 
             modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Deliveries.Delivery", b =>
@@ -86,6 +100,15 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.HasIndex("CourierId");
 
                     b.ToTable("DriversLicenses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f9c69e34-35ee-4a11-bb40-e63d590a9b11"),
+                            Categories = "[5]",
+                            CourierId = new Guid("a781d2be-b7fb-41c5-a7d7-b5907767485a"),
+                            DateIssued = new DateTime(2024, 6, 16, 16, 2, 8, 421, DateTimeKind.Local).AddTicks(5607)
+                        });
                 });
 
             modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Items.Item", b =>
@@ -104,6 +127,32 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Items");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("af584438-575e-4c97-b429-128f72c2469c"),
+                            Name = "Asbestos",
+                            Weight = 10.0m
+                        },
+                        new
+                        {
+                            Id = new Guid("b97aac37-3e37-418b-bd84-b4a7c222b3fe"),
+                            Name = "Bricks",
+                            Weight = 34.7m
+                        },
+                        new
+                        {
+                            Id = new Guid("51568137-dabd-437f-aca0-55d5176e44ca"),
+                            Name = "Pen",
+                            Weight = 0.1m
+                        },
+                        new
+                        {
+                            Id = new Guid("0cbb1178-ff27-4e05-a01b-94ebcd75a1b1"),
+                            Name = "Water bottle",
+                            Weight = 1.0m
+                        });
                 });
 
             modelBuilder.Entity("MAS_DeliveryService.Api.Domain.OrderItems.OrderItem", b =>
@@ -126,6 +175,38 @@ namespace MAS_DeliveryService.Api.Migrations
                         .IsUnique();
 
                     b.ToTable("OrderItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("53bb5537-14a5-450f-885d-e6234d84196a"),
+                            ItemId = new Guid("af584438-575e-4c97-b429-128f72c2469c"),
+                            OrderId = new Guid("19570230-fdad-4916-9159-7ca79ea13386")
+                        },
+                        new
+                        {
+                            Id = new Guid("8b973796-44e7-49d5-909c-f8b33df8fdd2"),
+                            ItemId = new Guid("b97aac37-3e37-418b-bd84-b4a7c222b3fe"),
+                            OrderId = new Guid("19570230-fdad-4916-9159-7ca79ea13386")
+                        },
+                        new
+                        {
+                            Id = new Guid("1710c85a-f034-4cf6-802d-085257631fb5"),
+                            ItemId = new Guid("0cbb1178-ff27-4e05-a01b-94ebcd75a1b1"),
+                            OrderId = new Guid("19570230-fdad-4916-9159-7ca79ea13386")
+                        },
+                        new
+                        {
+                            Id = new Guid("e0e991ff-cd16-4b88-bd93-ffe0d9361d82"),
+                            ItemId = new Guid("0cbb1178-ff27-4e05-a01b-94ebcd75a1b1"),
+                            OrderId = new Guid("0f1d73b7-fbdb-4b11-8e42-60f8b6864935")
+                        },
+                        new
+                        {
+                            Id = new Guid("e45d0d0b-5399-4d6e-9688-ee6dcd250b32"),
+                            ItemId = new Guid("51568137-dabd-437f-aca0-55d5176e44ca"),
+                            OrderId = new Guid("0f1d73b7-fbdb-4b11-8e42-60f8b6864935")
+                        });
                 });
 
             modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Orders.Order", b =>
@@ -158,6 +239,24 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.HasIndex("DeliveryId");
 
                     b.ToTable("Orders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("19570230-fdad-4916-9159-7ca79ea13386"),
+                            ClientId = new Guid("1036d298-8b4c-4391-ab44-e0c54d4799aa"),
+                            Destination = "Example 87, Warsaw, Poland",
+                            IsCancelled = false,
+                            Sender = "Building Company"
+                        },
+                        new
+                        {
+                            Id = new Guid("0f1d73b7-fbdb-4b11-8e42-60f8b6864935"),
+                            ClientId = new Guid("caafbfab-ce64-433a-bd37-d68169df1fa3"),
+                            Destination = "Example 32, Warsaw, Poland",
+                            IsCancelled = false,
+                            Sender = "Amazon.com"
+                        });
                 });
 
             modelBuilder.Entity("MAS_DeliveryService.Api.Domain.PackageItems.PackageItem", b =>
@@ -246,6 +345,36 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.HasIndex("WorkerId");
 
                     b.ToTable("Person");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("05be6fca-8704-4155-8e13-71b3ee56cc51"),
+                            FirstName = "Jan",
+                            LastName = "Kowalski",
+                            Number = "555666555"
+                        },
+                        new
+                        {
+                            Id = new Guid("dcf7afb1-adf7-4f16-ad38-dc5f2b214279"),
+                            FirstName = "Nathan",
+                            LastName = "Drake",
+                            Number = "444555666"
+                        },
+                        new
+                        {
+                            Id = new Guid("7db63b89-de37-4d77-8460-bb12cb8a5ec7"),
+                            FirstName = "John",
+                            LastName = "Marston",
+                            Number = "555444555"
+                        },
+                        new
+                        {
+                            Id = new Guid("9126d66b-f694-4a9e-895b-6691be413b2d"),
+                            FirstName = "Sam",
+                            LastName = "Fisher",
+                            Number = "111222333"
+                        });
                 });
 
             modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Static.Static", b =>
@@ -267,7 +396,7 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d0d75b41-11ea-4cfa-820c-fc873c8cdbf2"),
+                            Id = new Guid("ae9513bd-965f-49fa-a075-f42fa3482eb7"),
                             MaxWeight = 35.0m,
                             YearlyVacationDays = 21
                         });
@@ -310,12 +439,31 @@ namespace MAS_DeliveryService.Api.Migrations
                 {
                     b.HasBaseType("MAS_DeliveryService.Api.Domain.Workers.Worker");
 
-                    b.Property<Guid>("DriversLicenseId")
+                    b.Property<Guid?>("DriversLicenseId")
                         .HasColumnType("TEXT");
 
                     b.HasIndex("DriversLicenseId");
 
                     b.ToTable("Courier");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a781d2be-b7fb-41c5-a7d7-b5907767485a"),
+                            DateOfBirth = new DateTime(2024, 6, 16, 16, 2, 8, 421, DateTimeKind.Local).AddTicks(4854),
+                            Discriminator = 0,
+                            PersonId = new Guid("05be6fca-8704-4155-8e13-71b3ee56cc51"),
+                            SalaryPerHour = 30.0m
+                        },
+                        new
+                        {
+                            Id = new Guid("11be6353-09b3-433f-99f8-564ab4baa433"),
+                            DateOfBirth = new DateTime(2024, 6, 16, 16, 2, 8, 421, DateTimeKind.Local).AddTicks(4920),
+                            Discriminator = 1,
+                            MonthlySalary = 5000.0m,
+                            PersonId = new Guid("9126d66b-f694-4a9e-895b-6691be413b2d"),
+                            VacationDaysLeft = 0
+                        });
                 });
 
             modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Managers.Manager", b =>
@@ -327,6 +475,18 @@ namespace MAS_DeliveryService.Api.Migrations
                         .HasColumnType("TEXT");
 
                     b.ToTable("Manager");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("2e2a8832-9b41-4651-bb6e-b889281bc89b"),
+                            DateOfBirth = new DateTime(2024, 6, 16, 16, 2, 8, 421, DateTimeKind.Local).AddTicks(5299),
+                            Discriminator = 1,
+                            MonthlySalary = 3500.0m,
+                            PersonId = new Guid("dcf7afb1-adf7-4f16-ad38-dc5f2b214279"),
+                            VacationDaysLeft = 0,
+                            Education = "Harvard"
+                        });
                 });
 
             modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Clients.Client", b =>
@@ -472,9 +632,7 @@ namespace MAS_DeliveryService.Api.Migrations
                 {
                     b.HasOne("MAS_DeliveryService.Api.Domain.DriversLicenses.DriversLicense", "DriversLicense")
                         .WithMany()
-                        .HasForeignKey("DriversLicenseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DriversLicenseId");
 
                     b.HasOne("MAS_DeliveryService.Api.Domain.Workers.Worker", null)
                         .WithOne()
