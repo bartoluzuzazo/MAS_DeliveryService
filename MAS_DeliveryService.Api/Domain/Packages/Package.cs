@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MAS_DeliveryService.Api.Domain.Packages;
 
-[Index(nameof(SerialNumber), IsUnique = true)]
+[Table(nameof(Package)), Index(nameof(SerialNumber), IsUnique = true)]
 public class Package
 {
     private Guid? _deliveredInId;

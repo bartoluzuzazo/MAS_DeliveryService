@@ -2,9 +2,11 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using MAS_DeliveryService.Api.Domain.Items;
 using MAS_DeliveryService.Api.Domain.Packages;
+using Microsoft.EntityFrameworkCore;
 
 namespace MAS_DeliveryService.Api.Domain.PackageItems;
 
+[Index(nameof(ItemId), nameof(PackageId), IsUnique = true)]
 public class PackageItem
 {
     public PackageItem(Guid itemId, Guid packageId)

@@ -17,10 +17,15 @@ public class ClientRepository : IClientRepository
     {
         var person = new Person(fname, lname, num);
         await _context.Persons.AddAsync(person);
-
         var client = new Client(email, person.Id);
         await _context.Clients.AddAsync(client);
-        
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task AddClient(Guid personId, string email)
+    {
+        var client = new Client(email, personId);
+        await _context.Clients.AddAsync(client);
         await _context.SaveChangesAsync();
     }
 }

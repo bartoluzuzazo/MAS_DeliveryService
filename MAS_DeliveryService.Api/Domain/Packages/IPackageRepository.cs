@@ -12,5 +12,5 @@ public interface IPackageRepository
     /// <param name="packageItems">Lista asocjacji pomiędzy paczkami a przedmiotami</param>
     /// <exception cref="EmptyCollectionException">Wyjątek podnoszony w wypadku próby utworzenia pustej paczki</exception>
     /// <exception cref="Exception">Wyjątek podnoszony w wypadku próby dodania niezamówionego przedmiotu do paczki</exception>
-    public Task AddPackages(IEnumerable<Package> packages, List<PackageItem> packageItems);
+    public Task AddPackages(List<Package> packages, List<PackageItem> packageItems);
 }

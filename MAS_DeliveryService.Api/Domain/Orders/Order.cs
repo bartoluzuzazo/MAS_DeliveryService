@@ -33,11 +33,11 @@ public class Order
     {
         get
         {
+            if (IsCancelled) return "Canceled";
             if (Delivery?.DateTo is not null && SentIn.Any(p => p.DeliveredIn is null)) return "Incomplete";
             if (Delivery?.DateTo is not null) return "Delivered";
             if (Delivery is not null) return "Sent";
             if (SentIn.Any()) return "Awaiting delivery";
-            if (IsCancelled) return "Canceled";
             return "Pending";
         } 
     }

@@ -52,9 +52,13 @@ public class PackageController : ControllerBase
 
         try
         {
-            await _packageRepository.AddPackages(newPackages.Select(p => p.Item1), newPackageItems);
+            await _packageRepository.AddPackages(newPackages.Select(p => p.Item1).ToList(), newPackageItems);
         }
         catch (EmptyCollectionException e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (TooHeavyException e)
         {
             return BadRequest(e.Message);
         }

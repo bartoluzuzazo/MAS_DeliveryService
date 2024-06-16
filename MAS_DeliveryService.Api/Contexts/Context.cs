@@ -11,6 +11,7 @@ using MAS_DeliveryService.Api.Domain.Orders;
 using MAS_DeliveryService.Api.Domain.PackageItems;
 using MAS_DeliveryService.Api.Domain.Packages;
 using MAS_DeliveryService.Api.Domain.People;
+using MAS_DeliveryService.Api.Domain.Static;
 using MAS_DeliveryService.Api.Domain.Workers;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,10 +39,17 @@ public class Context : DbContext
     public DbSet<Worker> Workers { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
     public DbSet<PackageItem> PackageItems { get; set; }
+    public DbSet<Static> Static { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         options.UseSqlite($"Data Source=DeliveryService.db");
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Static>().HasData(new Static(35.0m, 21));
+        base.OnModelCreating(modelBuilder);
     }
 
     public override int SaveChanges()

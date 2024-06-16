@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MAS_DeliveryService.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b961b806fedfacbd33a5c506b50590ed9f58daba")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+303586dc2760d4ed84c5848a93eb52748b5647ae")]
 [assembly: System.Reflection.AssemblyProductAttribute("MAS_DeliveryService.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MAS_DeliveryService.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

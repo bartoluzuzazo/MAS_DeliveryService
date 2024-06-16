@@ -2,8 +2,11 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using MAS_DeliveryService.Api.Domain.Items;
 using MAS_DeliveryService.Api.Domain.Orders;
+using Microsoft.EntityFrameworkCore;
 
 namespace MAS_DeliveryService.Api.Domain.OrderItems;
+
+[Index(nameof(ItemId), nameof(OrderId), IsUnique = true)]
 
 public class OrderItem
 {

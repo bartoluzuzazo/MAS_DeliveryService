@@ -3,6 +3,7 @@ using System;
 using MAS_DeliveryService.Api.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MAS_DeliveryService.Api.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20240616123556_static")]
+    partial class @static
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -263,14 +266,6 @@ namespace MAS_DeliveryService.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Static");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("d0d75b41-11ea-4cfa-820c-fc873c8cdbf2"),
-                            MaxWeight = 35.0m,
-                            YearlyVacationDays = 21
-                        });
                 });
 
             modelBuilder.Entity("MAS_DeliveryService.Api.Domain.Workers.Worker", b =>

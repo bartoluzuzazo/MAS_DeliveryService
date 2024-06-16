@@ -5,6 +5,7 @@ using MAS_DeliveryService.Api.Domain.OrderItems;
 using MAS_DeliveryService.Api.Domain.Orders;
 using MAS_DeliveryService.Api.Domain.PackageItems;
 using MAS_DeliveryService.Api.Domain.Packages;
+using MAS_DeliveryService.Api.Domain.Static;
 using MAS_DeliveryService.Api.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,7 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IPackageRepository, PackageRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IStaticRepository, StaticRepository>();
 
 builder.Services.AddCors(options =>
 {
