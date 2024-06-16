@@ -10,6 +10,8 @@ namespace MAS_DeliveryService.Api.Domain.Packages;
 [Index(nameof(SerialNumber), IsUnique = true)]
 public class Package
 {
+    private Guid? _deliveredInId;
+
     public Package(string serialNumber, string? comment, Guid sentInId)
     {
         Id = Guid.NewGuid();
@@ -35,7 +37,15 @@ public class Package
     [ForeignKey(nameof(SentInId))]
     public virtual Order SentIn { get; set; }
 
-    public Guid? DeliveredInId { get; set; }
+    public Guid? DeliveredInId
+    {
+        get => _deliveredInId;
+        set
+        {
+            if (value is not null && value != SentInId) throw new Exception("DeliveredIn must be the same value as SentIn");
+            _deliveredInId = value;
+        }
+    }
 
     [ForeignKey(nameof(DeliveredInId))]
     public virtual Order? DeliveredIn { get; set; }

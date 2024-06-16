@@ -56,6 +56,11 @@ public class Context : DbContext
         return base.SaveChangesAsync(cancellationToken);
     }
 
+    /// <summary>
+    /// Metoda dodająca automatyczną walidację na podstawie
+    /// walidatorów (funkcjonalność ta jest domyślnie wyłączona w Entityframework). 
+    /// Wywoływana przy próbie zapisu danych do bazy danych.
+    /// </summary>
     private void AutoValidate()
     {
         ChangeTracker.Entries().Where(e => e.State is EntityState.Added or EntityState.Modified).Select(e => e.Entity)

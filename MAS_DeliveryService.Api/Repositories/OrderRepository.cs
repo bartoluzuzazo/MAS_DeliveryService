@@ -26,7 +26,7 @@ public class OrderRepository : IOrderRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<List<OrderGetResponse>> GetPendingOrders()
+    public async Task<List<Order>> GetPendingOrders()
     {
         var orders = _context.Orders
             .Include(o => o.SentIn)
@@ -34,20 +34,7 @@ public class OrderRepository : IOrderRepository
             .Include(o => o.Client).ThenInclude(c => c.Person).ToListAsync();
 
         var response = await orders;
-        var pending = response.Where(o => o.State == "Pending").Select(o => new OrderGetResponse()
-        {
-            Id = o.Id,
-            Sender = o.Sender,
-            Destination = o.Destination,
-            Items = o.OrderItems.Select(oi => new ItemGetResponse()
-            {
-                Id = oi.Item.Id,
-                Name = oi.Item.Name,
-                Weight = oi.Item.Weight
-            }).ToList(),
-            ClientFirstName = o.Client.Person.FirstName,
-            ClientLastName = o.Client.Person.LastName
-        }).ToList();
+        var pending = response.Where(o => o.State == "Pending").ToList();
 
         return pending;
     }

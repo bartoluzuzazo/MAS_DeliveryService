@@ -17,6 +17,19 @@ public class PackageController : ControllerBase
         _packageRepository = packageRepository;
     }
 
+    /// <summary>
+    /// Końcówka używana przez przypadek użycia "Rejestracja paczek".
+    /// Pozwala na zapisanie w bazie danych informacji na temat paczek,
+    /// które zostały przypisane do danego zamówienia.
+    /// Jednocześnie tworzy asocjacje z zapakowanymi w nie przedmiotami.
+    /// </summary>
+    /// <param name="request">
+    /// Żądanie utworzenia listy paczek zawierające identyfikator zamówienia
+    /// oraz listę danych nowych paczek.
+    /// Dane nowej paczki zawierają jej numer seryjny, opcjonalny komentarz i listę
+    /// zapakowanych do niej przedmiotów. 
+    /// </param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<IActionResult> PostPackages(PackagePostRequestWrapper request)
     {

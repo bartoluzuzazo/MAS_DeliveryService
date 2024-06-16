@@ -10,6 +10,7 @@ import {IItem, ItemList} from "./ItemList/ItemList";
 import {FunctionComponent, useEffect, useState} from "react";
 import axios from "axios";
 import {FaTruckArrowRight} from "react-icons/fa6";
+import {Skeleton} from "@mui/material";
 
 export interface IOrder {
     id: string,
@@ -97,6 +98,8 @@ export const OrderList: FunctionComponent<Props> = ({setOrder, setItems, setStag
         axios.get("http://localhost:5168/api/Order/pending").then(({data}) => {
             SetOrders(data);
             console.log(data);
+        }).catch(e => {
+            SetOrders([]);
         });
     }, [])
 
@@ -125,6 +128,13 @@ export const OrderList: FunctionComponent<Props> = ({setOrder, setItems, setStag
                                 <div>Next</div>
                             </div>
                         </td>
+                    </tr>) ?? [1,2,3,4,5,6,7,8].map(()=>
+                    <tr>
+                        <td><Skeleton className="w-full h-full"/></td>
+                        <td><Skeleton className="w-full h-full"/></td>
+                        <td><Skeleton className="w-full h-full"/></td>
+                        <td><Skeleton className="w-full h-full"/></td>
+                        <td><Skeleton className="w-full h-full"/></td>
                     </tr>)}
             </table>
         </div>

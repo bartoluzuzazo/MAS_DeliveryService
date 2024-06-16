@@ -47,7 +47,7 @@ export const ItemSelection: FunctionComponent<props> = ({items, selectedItems, s
                             inputProps={{'aria-labelledby': item.id}}
                         />
                     } className="border border-black">
-                        <ListItemButton>
+                        <ListItemButton onClick={()=> handleCheck(item)}>
                             <ListItemText primary={item.name}/>
                             <ListItemText primary={item.weight}/>
                         </ListItemButton>
