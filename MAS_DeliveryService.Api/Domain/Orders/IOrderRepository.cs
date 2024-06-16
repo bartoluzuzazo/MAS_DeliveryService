@@ -15,4 +15,7 @@ public interface IOrderRepository
     /// </summary>
     /// <returns>Lista zamówień o statusie "Pending"</returns>
     public Task<List<Order>> GetPendingOrders();
+    
+    public Task<List<Order>> GetAllOrders();
+
 }

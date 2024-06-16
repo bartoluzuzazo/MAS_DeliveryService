@@ -7,9 +7,8 @@ public interface IItemRepository
     /// </summary>
     /// <param name="item">Nowy przedmiot</param>
     /// <returns></returns>
-    public Task CreateItem(Item item);
-    public Task<List<Item>> ReadItems();
-    public Task<Item> ReadItem(Guid id);
-    public Task DeleteItem(Item item);
+    public Task AddItem(Item item);
+    public Task<List<Item>> GetItems();
+    public Task<Item> GetItem(Guid id);
     public Task<bool> ItemExists(Guid id);
 }

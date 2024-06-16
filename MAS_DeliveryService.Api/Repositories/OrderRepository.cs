@@ -28,14 +28,23 @@ public class OrderRepository : IOrderRepository
 
     public async Task<List<Order>> GetPendingOrders()
     {
-        var orders = _context.Orders
+        var orders = await _context.Orders
             .Include(o => o.SentIn)
             .Include(o => o.OrderItems).ThenInclude(oi => oi.Item)
             .Include(o => o.Client).ThenInclude(c => c.Person).ToListAsync();
 
-        var response = await orders;
-        var pending = response.Where(o => o.State == "Pending").ToList();
+        var pending = orders.Where(o => o.State == "Pending").ToList();
 
         return pending;
+    }
+
+    public async Task<List<Order>> GetAllOrders()
+    {
+        var orders = await _context.Orders
+            .Include(o => o.SentIn)
+            .Include(o => o.OrderItems).ThenInclude(oi => oi.Item)
+            .Include(o => o.Client).ThenInclude(c => c.Person)
+            .Include(o => o.Delivery).ToListAsync();
+        return orders;
     }
 }

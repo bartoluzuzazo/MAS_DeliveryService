@@ -13,4 +13,7 @@ public interface IPackageRepository
     /// <exception cref="EmptyCollectionException">Wyjątek podnoszony w wypadku próby utworzenia pustej paczki</exception>
     /// <exception cref="Exception">Wyjątek podnoszony w wypadku próby dodania niezamówionego przedmiotu do paczki</exception>
     public Task AddPackages(List<Package> packages, List<PackageItem> packageItems);
+    
+    public Task<List<Package>> GetPackages();
+
 }

@@ -13,5 +13,7 @@ public interface IClientRepository
     /// <param name="email">Adres email klienta</param>
     public Task AddClient(string fname, string lname, string num, string email);
     public Task AddClient(Guid personId, string email);
-
+    public Task<Client?> GetClient(Guid clientId);
+    public Task<List<Client>> GetClients();
+    public Task UpdateClient(Guid clientId, string fname, string lname, string num, string email);
 }

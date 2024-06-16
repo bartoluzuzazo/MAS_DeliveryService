@@ -20,7 +20,7 @@ public class ItemController : ControllerBase
     public async Task<IActionResult> PostItem(ItemCreateRequest request)
     {
         var item = new Item(request.Name, request.Weight);
-        await _itemRepository.CreateItem(item);
+        await _itemRepository.AddItem(item);
         return Created();
     }
 }

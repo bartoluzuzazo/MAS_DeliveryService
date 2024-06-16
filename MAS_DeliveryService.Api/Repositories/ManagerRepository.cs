@@ -2,6 +2,7 @@
 using MAS_DeliveryService.Api.Domain.Enums;
 using MAS_DeliveryService.Api.Domain.Managers;
 using MAS_DeliveryService.Api.Domain.People;
+using Microsoft.EntityFrameworkCore;
 
 namespace MAS_DeliveryService.Api.Repositories;
 
@@ -28,6 +29,27 @@ public class ManagerRepository : IManagerRepository
     {
         var manager = new Manager(personId, dateOfBirth, salary, contractType, education);
         await _context.Managers.AddAsync(manager);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<Manager?> GetManager(Guid managerId)
+    {
+        return await _context.Managers.Include(m => m.Person).FirstOrDefaultAsync(m => m.Id == managerId);
+    }
+
+    public async Task<List<Manager>> GetManagers()
+    {
+        return await _context.Managers.Include(m => m.Person).ToListAsync();
+    }
+
+    public async Task UpdateManager(Guid managerId, string fname, string lname, string num, string education)
+    {
+        var manager = await _context.Managers.Include(m => m.Person).FirstOrDefaultAsync(m => m.Id == managerId);
+        if (manager is null) throw new Exception($"Manager with id {managerId} does not exist");
+        manager.Person.FirstName = fname;
+        manager.Person.LastName = lname;
+        manager.Person.Number = num;
+        manager.Education = education;
         await _context.SaveChangesAsync();
     }
 }

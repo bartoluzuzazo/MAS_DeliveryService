@@ -42,4 +42,10 @@ public class PackageRepository : IPackageRepository
         await _context.PackageItems.AddRangeAsync(packageItems);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<List<Package>> GetPackages()
+    {
+        var packages = await _context.Packages.Include(p => p.PackageItems).ThenInclude(pi => pi.Item).ToListAsync();
+        return packages;
+    }
 }

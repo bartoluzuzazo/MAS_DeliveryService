@@ -13,26 +13,20 @@ public class ItemRepository : IItemRepository
         _context = context;
     }
 
-    public async Task CreateItem(Item item)
+    public async Task AddItem(Item item)
     {
         await _context.Items.AddAsync(item);
         await _context.SaveChangesAsync();
     }
 
-    public async Task<List<Item>> ReadItems()
+    public async Task<List<Item>> GetItems()
     {
         return await _context.Items.ToListAsync();
     }
 
-    public async Task<Item> ReadItem(Guid id)
+    public async Task<Item> GetItem(Guid id)
     {
         return await _context.Items.FirstAsync(i => i.Id == id);
-    }
-
-    public async Task DeleteItem(Item item)
-    {
-        _context.Items.Remove(item);
-        await _context.SaveChangesAsync();
     }
 
     public async Task<bool> ItemExists(Guid id)
